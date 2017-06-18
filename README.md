@@ -3,6 +3,10 @@
 I created this project, because I used an existing thumbnail generator, but it could not be run on a Raspberry Pi.
 If you're looking for a thumbnail generator, I would highly recommend [this one](http://moviethumbnail.sourceforge.net/).
 
+I innitialy wrote a script that just used ffmpeg, but for some odd reason the seeking would takes multiple minutes on my Raspberry Pi.
+Using the old script, it would take ~45 minutes to generate the thumbnails.
+This project only needs ~30 **seconds**.
+
 I'm not planning on making alot of changes to this code. If you need different dimensions or other commandline options, you could probably figure it out yourself. The code is not that complicated
 
 Example:
@@ -25,6 +29,6 @@ You will need OpenCV. (I used [this guide](https://www.youtube.com/watch?v=l4372
 Compiling on Raspberry Pi
 -------------------------
 ```
-g++ -std=c++0x $(pkg-config --libs --cflags opencv) -o VideoThumbnail VideoThumbnail.cpp
+g++ -std=c++0x $(pkg-config --libs --cflags opencv) -o VideoThumbnail Main.cpp
 ```
 
