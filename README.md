@@ -5,8 +5,8 @@ If you're looking for a thumbnail generator, I would highly recommend [this one]
 
 I innitialy wrote a script that just used ffmpeg, but for some odd reason the seeking would takes multiple minutes on my Raspberry Pi.
 
-Using the old script, it would take ~45 minutes to generate the thumbnails.
-This project only needs ~30 **seconds**.
+Using the old script, it would take **~45 _minutes_** to generate the thumbnails.
+This project only needs **~30 _seconds_**.
 
 I'm not planning on making alot of changes to this code. If you need different dimensions or other commandline options, you could probably figure it out yourself. The code is not that complicated
 
