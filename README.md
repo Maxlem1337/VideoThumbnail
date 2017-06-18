@@ -3,7 +3,7 @@
 I created this project, because I used an existing thumbnail generator, but it could not be run on a Raspberry Pi.
 If you're looking for a thumbnail generator, I would highly recommend [this one](http://moviethumbnail.sourceforge.net/).
 
-I'm not planning on making alot of changes to this code. If you need different dimensions, you could probably figure it out yourself. The code is not that complicated
+I'm not planning on making alot of changes to this code. If you need different dimensions or other commandline options, you could probably figure it out yourself. The code is not that complicated
 
 Example:
 --------
