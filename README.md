@@ -1,7 +1,7 @@
 # VideoThumbnail
 
 I created this project, because I used an existing thumbnail generator, but it could not be run on a Raspberry Pi.
-If you're looking for a thumbnail generator, I would highly recommend [this one](http://moviethumbnail.sourceforge.net/).
+If you're looking for a thumbnail generator, I would highly recommend [movie thumbnailer (mtn)](http://moviethumbnail.sourceforge.net/).
 
 I innitialy wrote a script that just used ffmpeg, but for some odd reason the seeking would takes multiple minutes on my Raspberry Pi.
 
