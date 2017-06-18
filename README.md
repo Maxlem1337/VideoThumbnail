@@ -10,7 +10,7 @@ This project only needs **~30 _seconds_**.
 
 I'm not planning on making alot of changes to this code. If you need different dimensions or other commandline options, you could probably figure it out yourself. The code is not that complicated
 
-Example:
+Example Usage:
 --------
 
 ```
