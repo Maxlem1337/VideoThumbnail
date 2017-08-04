@@ -63,40 +63,99 @@ string convertSize(size_t size) {
 	return result;
 }
 
-int main(int, char** argv)
+int main(int argc, char* argv[])
 {
-	String url = argv[1];
+	//Init defaults:
+	String dest = "";
+	int rows = 10;
+	int cols = 5;
+	String debug = "";
 
-	VideoCapture cap(url);
-	double number_of_frames = 50; //argv[2]
-	int number_of_col = 5;
-	double number_of_rows = number_of_frames / number_of_col;
+	for (int i = 1; i < argc; ++i) {
+		string arg = argv[i];
+		if (arg == "--debug") {
+			debug = "ye";
+		} 
+		else if (arg == "--destination" || arg == "-d") {
+			if (i + 1 < argc) {
+				dest = argv[++i];
+			} else {
+				std::cerr << arg + " option requires an argument." << std::endl;
+				return 1;
+			}
+		}
+		else if (arg == "--rows" || arg == "-r") {
+			if (i + 1 < argc) {
+				stringstream convert(argv[++i]);
+				if (!(convert >> rows)) {
+					std::cerr << "Error converting rows to int." << std::endl;
+					return 1;
+				}
+			}
+			else {
+				std::cerr << arg + " option requires an argument." << std::endl;
+				return 1;
+			}
+		}
+		else if (arg == "--cols" || arg == "-c") {
+			if (i + 1 < argc) {
+				stringstream convert(argv[++i]);
+				if (!(convert >> cols)) {
+					std::cerr << "Error converting cols to int." << std::endl;
+					return 1;
+				}
+			}
+			else {
+				std::cerr << arg + " option requires an argument." << std::endl;
+				return 1;
+			}
+		}
+		else { //Lets assume when there is only one argument that is not listed in the if statement before, that it is the destination.
+			dest = arg;
+		}
+	}
+
+	if (dest == "") {
+		std::cerr << "--destination is required." << std::endl;
+		return 1;
+	}
+
+	if (debug != "") {
+		std::cout << "Trying to open file: " + dest << std::endl;
+	}
+
+	VideoCapture cap(dest);
+	double number_of_frames = rows * cols;
 	double frame_height = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
 	double frame_width = cap.get(CV_CAP_PROP_FRAME_WIDTH);
 	double interval = cap.get(CV_CAP_PROP_FRAME_COUNT) / number_of_frames;
 
-	string file = "File: " + url;
-	string size = "Size: " + convertSize(getFileSize(url));
+	string file = "File: " + dest;
+	string size = "Size: " + convertSize(getFileSize(dest));
 	string duration = " Duration: " +  timeFromMilis((cap.get(CV_CAP_PROP_FRAME_COUNT) / cap.get(CV_CAP_PROP_FPS))*1000);
 	string video= "Video: " + to_string((int)frame_width) + "x" + to_string((int)frame_height);
 	string fps = " Fps: " + to_string(cap.get(CV_CAP_PROP_FPS));
 
 
-	if (!cap.isOpened())  // check if we succeeded
+	if (!cap.isOpened()) { // check if we succeeded
+		std::cerr << "Error trying to open:" + dest << std::endl;
 		return -1;
+	}
 
+
+	//Super messy code, should probably clean this up sometime.
 	Mat firstrow;
-	for (int i = 1; i <= 10; i++) {
+	for (int i = 1; i <= rows; i++) {
 		Mat row;
-		for (int j = 1; j <= number_of_col; j++) {
+		for (int j = 1; j <= cols; j++) {
 			if (j == 1) {
-				cap.set(CV_CAP_PROP_POS_FRAMES, ((((i - 1)*(number_of_col)+j)-1)*interval));
+				cap.set(CV_CAP_PROP_POS_FRAMES, ((((i - 1)*(cols)+j)-1)*interval));
 				cap.read(row);
 				putText(row, timeFromMilis(cap.get(CV_CAP_PROP_POS_MSEC)), cvPoint(10, frame_height - 20), FONT_HERSHEY_PLAIN, 1.5, cvScalar(0, 0, 0), 2, CV_AA, false);
 			}
 			else {
 				Mat mat1;
-				cap.set(CV_CAP_PROP_POS_FRAMES, ((((i - 1)*(number_of_col)+j) - 1)*interval));
+				cap.set(CV_CAP_PROP_POS_FRAMES, ((((i - 1)*(cols)+j) - 1)*interval));
 				cap.read(mat1);
 				putText(mat1, timeFromMilis(cap.get(CV_CAP_PROP_POS_MSEC)), cvPoint(10, frame_height - 20), FONT_HERSHEY_PLAIN, 1.5, cvScalar(0, 0, 0), 2, CV_AA, false);
 				hconcat(row, mat1, row);
@@ -111,7 +170,8 @@ int main(int, char** argv)
 		}
 	}
 
-	double labelwidth = frame_width*number_of_col;
+	//Creating label:
+	double labelwidth = frame_width*cols;
 
 	Mat label = Mat::ones(200, labelwidth, CV_8UC3);
 	label.setTo(Scalar(255, 255, 255));
@@ -121,7 +181,7 @@ int main(int, char** argv)
 
 	vconcat(label, firstrow, firstrow);
 
-	String imageurl = url + ".jpg";
+	String imageurl = dest + ".jpg";
 	imwrite(imageurl, firstrow);
 
 	return 0;
