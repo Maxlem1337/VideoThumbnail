@@ -16,7 +16,7 @@ Options:
 --debug                                 Prints debug logs.
 -d, --destination PATH                  REQUIRED: Path of the video.
 -r, --rows COUNT                        Number of rows (Default is 10)
--c, --cols                              Number of columns (Default is 5)
+-c, --cols COUNT                        Number of columns (Default is 5)
 ```
 
 Example Usage:
