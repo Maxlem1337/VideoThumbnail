@@ -3,7 +3,7 @@
 I created this project, because I used an existing thumbnail generator, but it could not be run on a Raspberry Pi.
 If you're looking for a thumbnail generator, I would highly recommend [movie thumbnailer (mtn)](http://moviethumbnail.sourceforge.net/).
 
-I innitialy wrote a script that just used ffmpeg, but for some odd reason the seeking would takes multiple minutes on my Raspberry Pi.
+I initialy wrote a script that just used ffmpeg, but for some odd reason the seeking would takes multiple minutes on my Raspberry Pi.
 
 Using the old script, it would take **~45 _minutes_** to generate the thumbnails.
 This project only needs **~30 _seconds_**.
@@ -13,10 +13,10 @@ I'm not planning on making alot of changes to this code. If you need different d
 Options:
 --------
 ```
---debug                                 Prints debug logs.
+--debug                                 Optional: Prints debug logs.
 -d, --destination PATH                  REQUIRED: Path of the video.
--r, --rows COUNT                        Number of rows (Default is 10)
--c, --cols COUNT                        Number of columns (Default is 5)
+-r, --rows COUNT                        Optional: Number of rows (Default is 10)
+-c, --cols COUNT                        Optional: Number of columns (Default is 5)
 ```
 
 Example Usage:
